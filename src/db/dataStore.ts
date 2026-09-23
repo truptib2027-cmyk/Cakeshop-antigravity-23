@@ -1,4 +1,6 @@
 import crypto from "crypto";
+import fs from "fs";
+import path from "path";
 
 export interface User {
   id: string;
@@ -166,8 +168,54 @@ class DataStore {
   // Mutex lock for simulating database transaction row locking (FOR UPDATE)
   private lockPromise: Promise<void> = Promise.resolve();
 
+  private persistPath = path.join(process.cwd(), ".cakecart_store.json");
+
+  // Save state to disk for cross-worker / hot-reload persistence
+  public saveToDisk() {
+    try {
+      const data = {
+        users: Array.from(this.users.entries()),
+        dailyCapacity: Array.from(this.dailyCapacity.entries()),
+        orders: Array.from(this.orders.entries()),
+        payments: Array.from(this.payments.entries()),
+        auditLogs: this.auditLogs,
+      };
+      fs.writeFileSync(this.persistPath, JSON.stringify(data, null, 2), "utf8");
+    } catch {
+      // ignore
+    }
+  }
+
+  // Load state from disk
+  public loadFromDisk() {
+    try {
+      if (fs.existsSync(this.persistPath)) {
+        const raw = fs.readFileSync(this.persistPath, "utf8");
+        const data = JSON.parse(raw);
+        if (data.users?.length) {
+          for (const [k, v] of data.users) this.users.set(k, v);
+        }
+        if (data.dailyCapacity?.length) {
+          for (const [k, v] of data.dailyCapacity) this.dailyCapacity.set(k, v);
+        }
+        if (data.orders?.length) {
+          for (const [k, v] of data.orders) this.orders.set(k, v);
+        }
+        if (data.payments?.length) {
+          for (const [k, v] of data.payments) this.payments.set(k, v);
+        }
+        if (data.auditLogs?.length) {
+          this.auditLogs = data.auditLogs;
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }
+
   constructor() {
     this.seedInitialData();
+    this.loadFromDisk();
   }
 
   // Acquire transaction lock
@@ -791,6 +839,8 @@ class DataStore {
         timestamp: now.toISOString(),
       });
 
+      this.saveToDisk();
+
       return { order: newOrder, holdExpiresAt };
     } finally {
       releaseLock();
@@ -806,6 +856,8 @@ class DataStore {
   }): Promise<{ order: Order; payment: Payment }> {
     const releaseLock = await this.acquireLock();
     try {
+      this.loadFromDisk();
+
       // Step 9: Check payment idempotency key
       const existingPayment = Array.from(this.payments.values()).find((p) => p.idempotencyKey === params.idempotencyKey);
       if (existingPayment) {
@@ -871,6 +923,8 @@ class DataStore {
         details: { paymentId, amount: payment.amount, provider: params.provider },
         timestamp: new Date().toISOString(),
       });
+
+      this.saveToDisk();
 
       return { order, payment };
     } finally {
@@ -1026,16 +1080,19 @@ class DataStore {
   }
 
   public getOrderByNumber(orderNumber: string): Order | undefined {
+    this.loadFromDisk();
     return Array.from(this.orders.values()).find((o) => o.orderNumber === orderNumber);
   }
 
   public getOrderByPickupCode(code: string): Order | undefined {
+    this.loadFromDisk();
     return Array.from(this.orders.values()).find(
       (o) => o.pickupCode.toUpperCase() === code.trim().toUpperCase()
     );
   }
 
   public getAllOrders(): Order[] {
+    this.loadFromDisk();
     return Array.from(this.orders.values()).sort(
       (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
@@ -1046,6 +1103,12 @@ class DataStore {
   }
 }
 
-// Global Singleton Instance
-const globalDataStore = new DataStore();
-export const dataStore = globalDataStore;
+// Global Singleton Instance attached to globalThis for Next.js hot-reload and cross-route persistence
+const globalForDataStore = globalThis as unknown as {
+  cakeCartDataStore: DataStore | undefined;
+};
+
+export const dataStore = globalForDataStore.cakeCartDataStore ?? new DataStore();
+
+globalForDataStore.cakeCartDataStore = dataStore;
+
