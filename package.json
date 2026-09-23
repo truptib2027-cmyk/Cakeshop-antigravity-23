@@ -1,0 +1,39 @@
+{
+  "name": "cakecart",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "db:seed": "tsx src/db/seed.ts",
+    "test:qa": "tsx tests/qa-suite.ts"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "bcryptjs": "^3.0.2",
+    "clsx": "^2.1.1",
+    "drizzle-orm": "^0.40.0",
+    "jose": "^6.0.8",
+    "lucide-react": "^1.16.0",
+    "next": "^15.2.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.0.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.9",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^22.13.9",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "drizzle-kit": "^0.30.5",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.0.9",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}
