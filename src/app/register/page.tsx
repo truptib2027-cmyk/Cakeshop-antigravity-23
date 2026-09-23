@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { Lock, Mail, User as UserIcon, Phone, Cake, AlertCircle } from "lucide-react";
+import { Lock, Mail, User as UserIcon, Phone, Cake, AlertCircle, Sparkles, CheckCircle } from "lucide-react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -17,6 +17,7 @@ export default function RegisterPage() {
   const [role, setRole] = useState("customer");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,14 +35,23 @@ export default function RegisterPage() {
     setLoading(false);
 
     if (result.success) {
-      if (role === "baker") {
-        router.push("/baker");
-      } else {
-        router.push("/menu");
-      }
+      setSuccess(true);
+      // Full redirect to ensure cookies are refreshed in the browser session
+      setTimeout(() => {
+        window.location.href = role === "baker" ? "/baker" : "/menu";
+      }, 500);
     } else {
-      setError(result.error || "Registration failed.");
+      setError(result.error || "Registration failed. Please try a different email.");
     }
+  };
+
+  const handleQuickFill = () => {
+    const randomSuffix = Math.floor(100 + Math.random() * 900);
+    setFullName(`Customer ${randomSuffix}`);
+    setEmail(`user${randomSuffix}@cakecart.com`);
+    setPhone("+1 (555) 019-2831");
+    setPassword("CustomerSecret123!");
+    setError(null);
   };
 
   return (
@@ -60,10 +70,44 @@ export default function RegisterPage() {
       </div>
 
       <div className="bg-white rounded-3xl border border-[#E8DFD5] p-8 shadow-sm space-y-6">
+        {/* Quick Fill Testing Helper */}
+        <div className="p-3 bg-amber-50 rounded-2xl border border-amber-200 flex items-center justify-between">
+          <div className="text-[11px] text-amber-900">
+            <span className="font-bold block">Quick Testing Helper:</span>
+            <span>Click to generate random test credentials</span>
+          </div>
+          <button
+            type="button"
+            onClick={handleQuickFill}
+            className="px-3 py-1.5 bg-amber-800 text-white text-xs font-semibold rounded-xl hover:bg-amber-900 transition-colors shadow-xs flex items-center gap-1"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Auto Fill</span>
+          </button>
+        </div>
+
         {error && (
-          <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
-            <span>{error}</span>
+          <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs space-y-1">
+            <div className="flex items-center gap-2 font-semibold">
+              <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
+              <span>{error}</span>
+            </div>
+            {error.includes("already exists") && (
+              <p className="text-[11px] text-stone-600 pl-6">
+                This account is already registered. Please{" "}
+                <Link href="/login" className="font-bold text-amber-800 underline">
+                  Sign in here
+                </Link>{" "}
+                instead.
+              </p>
+            )}
+          </div>
+        )}
+
+        {success && (
+          <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs flex items-center gap-2">
+            <CheckCircle className="w-4 h-4 shrink-0 text-emerald-600" />
+            <span>Account created! Redirecting to menu...</span>
           </div>
         )}
 
@@ -171,10 +215,10 @@ export default function RegisterPage() {
           </button>
         </form>
 
-        <div className="text-center text-xs text-stone-500 pt-2">
+        <div className="text-center text-xs text-stone-500 pt-2 border-t border-stone-100">
           Already have an account?{" "}
           <Link href="/login" className="font-semibold text-amber-800 hover:underline">
-            Sign In
+            Sign In with 1-click demo accounts
           </Link>
         </div>
       </div>

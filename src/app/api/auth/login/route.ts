@@ -47,11 +47,12 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    const isHttps = req.url.startsWith("https") || req.headers.get("x-forwarded-proto") === "https" || process.env.NODE_ENV === "production";
     response.cookies.set({
       name: COOKIE_NAME,
       value: token,
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: isHttps,
       sameSite: "lax",
       path: "/",
       maxAge: 7 * 24 * 60 * 60,
