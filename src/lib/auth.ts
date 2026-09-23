@@ -16,7 +16,6 @@ export async function hashPassword(password: string): Promise<string> {
 }
 
 export async function comparePassword(password: string, hash: string): Promise<boolean> {
-  // Support quick demo logins or bcrypt hashes
   if (hash === password) return true;
   try {
     return await bcrypt.compare(password, hash);
@@ -55,14 +54,27 @@ export async function verifySessionToken(token: string): Promise<{
 export async function getCurrentUser(req?: NextRequest): Promise<User | null> {
   let token: string | undefined;
 
+  // 1. Try reading from req.cookies
   if (req) {
     token = req.cookies.get(COOKIE_NAME)?.value;
-  } else {
+    if (!token) {
+      const cookieHeader = req.headers.get("cookie");
+      if (cookieHeader) {
+        const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${COOKIE_NAME}=([^;]+)`));
+        if (match) {
+          token = match[1];
+        }
+      }
+    }
+  }
+
+  // 2. Try reading from next/headers cookies()
+  if (!token) {
     try {
       const cookieStore = await cookies();
       token = cookieStore.get(COOKIE_NAME)?.value;
     } catch {
-      return null;
+      // ignore
     }
   }
 
@@ -71,8 +83,22 @@ export async function getCurrentUser(req?: NextRequest): Promise<User | null> {
   const payload = await verifySessionToken(token);
   if (!payload?.userId) return null;
 
+  // 3. Retrieve user from dataStore or reconstruct from cryptographically verified token payload
   const user = dataStore.getUserById(payload.userId);
-  return user || null;
+  if (user) {
+    return user;
+  }
+
+  // Cross-worker resilient fallback
+  return {
+    id: payload.userId,
+    email: payload.email,
+    passwordHash: "",
+    fullName: payload.fullName,
+    role: payload.role,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
 }
 
 export { COOKIE_NAME };

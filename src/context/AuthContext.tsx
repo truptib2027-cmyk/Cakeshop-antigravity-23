@@ -25,17 +25,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Initial load from localStorage for instant offline/tunnel session resilience
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("cakecart_user");
+      if (stored) {
+        setUser(JSON.parse(stored));
+      }
+    } catch (e) {
+      console.error("Failed to load user from localStorage", e);
+    }
+  }, []);
+
   const fetchUser = async () => {
     try {
       const res = await fetch("/api/auth/me");
       if (res.ok) {
         const data = await res.json();
-        setUser(data.user);
-      } else {
-        setUser(null);
+        if (data.user) {
+          setUser(data.user);
+          localStorage.setItem("cakecart_user", JSON.stringify(data.user));
+        } else {
+          // If server says not logged in, clear storage
+          setUser(null);
+          localStorage.removeItem("cakecart_user");
+        }
       }
     } catch {
-      setUser(null);
+      // Keep localStorage user if network error on tunnel
     } finally {
       setLoading(false);
     }
@@ -57,6 +74,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return { success: false, error: data.error || "Login failed" };
       }
       setUser(data.user);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("cakecart_user", JSON.stringify(data.user));
+      }
       return { success: true };
     } catch (e: any) {
       return { success: false, error: e.message || "Network error" };
@@ -81,6 +101,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return { success: false, error: data.error || "Registration failed" };
       }
       setUser(data.user);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("cakecart_user", JSON.stringify(data.user));
+      }
       return { success: true };
     } catch (e: any) {
       return { success: false, error: e.message || "Network error" };
@@ -90,9 +113,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = async () => {
     try {
       await fetch("/api/auth/logout", { method: "POST" });
-      setUser(null);
     } catch (e) {
       console.error("Logout error", e);
+    } finally {
+      setUser(null);
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("cakecart_user");
+      }
     }
   };
 
