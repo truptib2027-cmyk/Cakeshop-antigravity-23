@@ -279,7 +279,7 @@ export default function CakeCustomisePage({
           {/* 1. Size Selection */}
           <div className="space-y-3">
             <label className="text-xs font-bold text-stone-800 uppercase tracking-wider block">
-              1. Choose Cake Size
+              1. Choose Size / Pack Option
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {sizes.map((s) => (
@@ -315,7 +315,7 @@ export default function CakeCustomisePage({
           {/* 2. Flavour Selection */}
           <div className="space-y-3">
             <label className="text-xs font-bold text-stone-800 uppercase tracking-wider block">
-              2. Select Sponge & Filling Flavour
+              2. Select Flavour / Style Option
             </label>
             <div className="space-y-2">
               {flavours.map((f) => (
@@ -345,7 +345,7 @@ export default function CakeCustomisePage({
           <div className="space-y-2 bg-stone-50/80 p-5 rounded-2xl border border-stone-200">
             <div className="flex items-center justify-between">
               <label className="text-xs font-bold text-stone-800 uppercase tracking-wider flex items-center gap-1.5">
-                <span>3. Hand-Piped Message</span>
+                <span>3. Personalized Plaque / Gift Message</span>
                 <span className="text-[10px] text-amber-800 font-semibold bg-amber-100 px-2 py-0.5 rounded">
                   +$3.00 Fee
                 </span>
@@ -364,7 +364,7 @@ export default function CakeCustomisePage({
             </div>
 
             <p className="text-[11px] text-stone-500">
-              Personalize your cake with a hand-piped greeting (e.g. &quot;Happy 30th Birthday Alex!&quot;). Strict 40 character limit.
+              Personalize your order with a hand-piped cake greeting or card note (e.g. &quot;Happy 30th Birthday Alex!&quot;). Strict 40 character limit.
             </p>
 
             <input

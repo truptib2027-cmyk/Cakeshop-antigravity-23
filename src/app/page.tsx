@@ -188,7 +188,7 @@ export default async function HomePage() {
             href="/menu"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-amber-800 hover:text-amber-900 group"
           >
-            <span>View All 8 Creations</span>
+            <span>View Full Menu & Combo Offers</span>
             <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
@@ -245,6 +245,51 @@ export default async function HomePage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Featured Celebration Party Combo Promo Banner */}
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-950 via-stone-900 to-amber-900 text-white p-8 md:p-12 shadow-lg border border-amber-800/40">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-7 space-y-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400 text-stone-950 text-xs font-bold shadow-sm">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>LIMITED CELEBRATION COMBO DEAL • 25% OFF</span>
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold leading-tight">
+              Ultimate Party Celebration Combo
+            </h2>
+            <p className="text-stone-300 text-sm sm:text-base leading-relaxed">
+              Everything you need for an unforgettable celebration in one booking: 8&quot; Signature Cake + Box of 6 Fresh Artisan Muffins + Pastel Confetti Balloon Bouquet + 24k Gold Candles with Sparklers. Save over 25% compared to individual items!
+            </p>
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <Link
+                href="/cake/ultimate-celebration-party-combo"
+                className="px-6 py-3 rounded-2xl bg-amber-400 hover:bg-amber-300 text-stone-950 font-bold text-sm shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
+              >
+                <span>Order Combo for $79.00</span>
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/menu"
+                className="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-semibold text-sm border border-white/20 transition-all"
+              >
+                Browse All Menu Add-Ons
+              </Link>
+            </div>
+          </div>
+          <div className="lg:col-span-5 relative">
+            <div className="relative aspect-4/3 rounded-2xl overflow-hidden shadow-xl border-2 border-amber-400/40">
+              <img
+                src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=800&q=80"
+                alt="Celebration Combo"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute top-3 right-3 bg-amber-400 text-stone-950 text-xs font-black px-3 py-1 rounded-full shadow-md">
+                SAVE 25%
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

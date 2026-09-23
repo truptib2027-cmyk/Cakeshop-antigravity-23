@@ -242,12 +242,21 @@ class DataStore {
     // 2. Categories
     const cats: Category[] = [
       {
+        id: "cat-5",
+        name: "Party Combos & Sets",
+        slug: "party-combos",
+        description: "All-in-one celebration bundles with cake, muffins, candles & balloon bouquets at exclusive combo bundle savings.",
+        imageUrl: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=800&q=80",
+        displayOrder: 1,
+        createdAt: new Date().toISOString(),
+      },
+      {
         id: "cat-1",
         name: "Signature Celebration",
         slug: "signature-celebration",
         description: "Multi-layered statement cakes handcrafted for birthdays, anniversaries, and milestones.",
         imageUrl: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80",
-        displayOrder: 1,
+        displayOrder: 2,
         createdAt: new Date().toISOString(),
       },
       {
@@ -256,7 +265,7 @@ class DataStore {
         slug: "bento-mini-cakes",
         description: "Charming Korean-style 6-inch mini celebration cakes for intimate gatherings.",
         imageUrl: "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?auto=format&fit=crop&w=800&q=80",
-        displayOrder: 2,
+        displayOrder: 3,
         createdAt: new Date().toISOString(),
       },
       {
@@ -265,7 +274,7 @@ class DataStore {
         slug: "dietary-specials",
         description: "Strictly eggless, gluten-free, and vegan artisan bakes made without compromise.",
         imageUrl: "https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=800&q=80",
-        displayOrder: 3,
+        displayOrder: 4,
         createdAt: new Date().toISOString(),
       },
       {
@@ -274,7 +283,25 @@ class DataStore {
         slug: "cupcake-gift-boxes",
         description: "Sets of 6 artisan cupcakes topped with hand-piped floral buttercream.",
         imageUrl: "https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&w=800&q=80",
-        displayOrder: 4,
+        displayOrder: 5,
+        createdAt: new Date().toISOString(),
+      },
+      {
+        id: "cat-6",
+        name: "Fresh Artisan Muffins",
+        slug: "muffins",
+        description: "Freshly baked morning and party muffins with crunchy streusel crowns and rich melted fillings.",
+        imageUrl: "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?auto=format&fit=crop&w=800&q=80",
+        displayOrder: 6,
+        createdAt: new Date().toISOString(),
+      },
+      {
+        id: "cat-7",
+        name: "Candles & Balloons",
+        slug: "candles-balloons",
+        description: "Luxury champagne-gold celebration candles, sparklers, and floating helium balloon bouquets.",
+        imageUrl: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80",
+        displayOrder: 7,
         createdAt: new Date().toISOString(),
       },
     ];
@@ -447,6 +474,115 @@ class DataStore {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       },
+      {
+        id: "prod-combo-1",
+        name: "Ultimate Celebration Party Combo (Cake + Muffins + Balloons + Candles)",
+        slug: "ultimate-celebration-party-combo",
+        description:
+          "🔥 SPECIAL COMBO OFFER (SAVE 25%): The complete party package! Includes 1x 8\" Signature Celebration Cake (choice of flavour), 1x Box of 6 Fresh Artisan Streusel Muffins, 1x Pastel Helium Confetti Balloon Bouquet (set of 5), and 1x 24k Gold Celebration Candles set with tabletop sparklers. Value $105+.",
+        basePrice: 7900, // $79.00
+        imageUrl: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=800&q=80",
+        minLeadTimeHours: 48,
+        isActive: true,
+        categories: ["cat-5", "cat-1"],
+        dietaryTags: ["nut-free"],
+        options: [
+          { id: "opt-c1-s1", productId: "prod-combo-1", type: "size", name: "Party Pack (8\" Cake + 6 Muffins + Balloons + Candles)", priceModifier: 0, isDefault: true, isAvailable: true },
+          { id: "opt-c1-s2", productId: "prod-combo-1", type: "size", name: "Grand Party Pack (10\" Cake + 12 Muffins + 10 Balloons + Candles)", priceModifier: 3200, isDefault: false, isAvailable: true },
+          { id: "opt-c1-f1", productId: "prod-combo-1", type: "flavour", name: "Velvet Vanilla Cake & Assorted Berry Muffins", priceModifier: 0, isDefault: true, isAvailable: true },
+          { id: "opt-c1-f2", productId: "prod-combo-1", type: "flavour", name: "Belgian Chocolate Truffle Cake & Choc Muffins", priceModifier: 400, isDefault: false, isAvailable: true },
+          { id: "opt-c1-f3", productId: "prod-combo-1", type: "flavour", name: "Salted Caramel Cake & Spiced Streusel Muffins", priceModifier: 400, isDefault: false, isAvailable: true },
+        ],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: "prod-combo-2",
+        name: "Sweet Morning Celebration Combo (Muffins + Candles)",
+        slug: "sweet-morning-celebration-combo",
+        description:
+          "🔥 COMBO SPECIAL: Perfect surprise for morning celebrations or desk celebrations! 1x Box of 6 freshly baked artisan muffins paired with a set of 12 glowing 24k gold celebration candles. Save over $5 compared to buying separately.",
+        basePrice: 2600, // $26.00 (val $31)
+        imageUrl: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=800&q=80",
+        minLeadTimeHours: 48,
+        isActive: true,
+        categories: ["cat-5", "cat-6", "cat-7"],
+        dietaryTags: ["nut-free", "eggless"],
+        options: [
+          { id: "opt-c2-s1", productId: "prod-combo-2", type: "size", name: "6 Artisan Muffins + 12 Gold Candles", priceModifier: 0, isDefault: true, isAvailable: true },
+          { id: "opt-c2-s2", productId: "prod-combo-2", type: "size", name: "12 Artisan Muffins + 24 Gold Candles", priceModifier: 1800, isDefault: false, isAvailable: true },
+          { id: "opt-c2-f1", productId: "prod-combo-2", type: "flavour", name: "Assorted Wild Blueberry & Double Chocolate", priceModifier: 0, isDefault: true, isAvailable: true },
+          { id: "opt-c2-f2", productId: "prod-combo-2", type: "flavour", name: "Pure Mountain Blueberry Streusel", priceModifier: 0, isDefault: false, isAvailable: true },
+        ],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: "prod-muffins-1",
+        name: "Artisan Bakery Muffin Box (Fresh Batch of 6)",
+        slug: "artisan-bakery-muffin-box",
+        description:
+          "Oven-fresh artisan bakery muffins with golden crunchy oat-streusel crowns, organic mountain blueberries, and melting Belgian chocolate chunks. Handcrafted every morning.",
+        basePrice: 2200, // $22.00
+        imageUrl: "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?auto=format&fit=crop&w=800&q=80",
+        minLeadTimeHours: 48,
+        isActive: true,
+        categories: ["cat-6"],
+        dietaryTags: ["nut-free", "eggless"],
+        options: [
+          { id: "opt-m1-s1", productId: "prod-muffins-1", type: "size", name: "Box of 6 Fresh Muffins", priceModifier: 0, isDefault: true, isAvailable: true },
+          { id: "opt-m1-s2", productId: "prod-muffins-1", type: "size", name: "Party Box of 12 Fresh Muffins", priceModifier: 1800, isDefault: false, isAvailable: true },
+          { id: "opt-m1-f1", productId: "prod-muffins-1", type: "flavour", name: "Mixed Assortment (3 Blueberry, 3 Double Chocolate)", priceModifier: 0, isDefault: true, isAvailable: true },
+          { id: "opt-m1-f2", productId: "prod-muffins-1", type: "flavour", name: "100% Wild Mountain Blueberry Streusel", priceModifier: 0, isDefault: false, isAvailable: true },
+          { id: "opt-m1-f3", productId: "prod-muffins-1", type: "flavour", name: "Double Belgian Chocolate Chunk", priceModifier: 200, isDefault: false, isAvailable: true },
+        ],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: "prod-candles-1",
+        name: "24k Gold Celebration Candles & Sparklers Set",
+        slug: "gold-celebration-candles-sparklers",
+        description:
+          "Set of 12 slim metallic champagne-gold tapered celebration candles with clear food-safe holders plus 2 gold tabletop sparklers for a stunning cake ceremony.",
+        basePrice: 900, // $9.00
+        imageUrl: "https://images.unsplash.com/photo-1514517521153-1be72277b32f?auto=format&fit=crop&w=800&q=80",
+        minLeadTimeHours: 48,
+        isActive: true,
+        categories: ["cat-7"],
+        dietaryTags: [],
+        options: [
+          { id: "opt-can-s1", productId: "prod-candles-1", type: "size", name: "Standard Pack (12 Candles + 2 Sparklers)", priceModifier: 0, isDefault: true, isAvailable: true },
+          { id: "opt-can-s2", productId: "prod-candles-1", type: "size", name: "Deluxe Party Pack (24 Candles + 4 Sparklers)", priceModifier: 600, isDefault: false, isAvailable: true },
+          { id: "opt-can-f1", productId: "prod-candles-1", type: "flavour", name: "Champagne 24k Gold Metallic", priceModifier: 0, isDefault: true, isAvailable: true },
+          { id: "opt-can-f2", productId: "prod-candles-1", type: "flavour", name: "Rose Gold Shimmer", priceModifier: 0, isDefault: false, isAvailable: true },
+          { id: "opt-can-f3", productId: "prod-candles-1", type: "flavour", name: "Pastel Rainbow Ombre", priceModifier: 0, isDefault: false, isAvailable: true },
+        ],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: "prod-balloons-1",
+        name: "Pastel Helium Confetti Balloon Bouquet (Set of 5)",
+        slug: "pastel-helium-confetti-balloon-bouquet",
+        description:
+          "Handcrafted party balloon bouquet of 5 helium-filled balloons: 2 crystal-clear confetti balloons, 2 pearl latex balloons, and 1 metallic foil heart balloon with satin ribbon and weights.",
+        basePrice: 1600, // $16.00
+        imageUrl: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80",
+        minLeadTimeHours: 48,
+        isActive: true,
+        categories: ["cat-7"],
+        dietaryTags: [],
+        options: [
+          { id: "opt-bal-s1", productId: "prod-balloons-1", type: "size", name: "Bouquet of 5 Balloons", priceModifier: 0, isDefault: true, isAvailable: true },
+          { id: "opt-bal-s2", productId: "prod-balloons-1", type: "size", name: "Deluxe Cluster of 10 Balloons", priceModifier: 1400, isDefault: false, isAvailable: true },
+          { id: "opt-bal-f1", productId: "prod-balloons-1", type: "flavour", name: "Pastel Macaron & Rose Gold", priceModifier: 0, isDefault: true, isAvailable: true },
+          { id: "opt-bal-f2", productId: "prod-balloons-1", type: "flavour", name: "Midnight Navy & Metallic Silver", priceModifier: 0, isDefault: false, isAvailable: true },
+          { id: "opt-bal-f3", productId: "prod-balloons-1", type: "flavour", name: "Sage Eucalyptus & Pearl White", priceModifier: 0, isDefault: false, isAvailable: true },
+        ],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
     ];
     prods.forEach((p) => this.products.set(p.id, p));
 
@@ -599,6 +735,18 @@ class DataStore {
     return { ...defaultCap };
   }
 
+  // Calculate oven baking capacity slots required for items
+  // Cakes, cupcakes, combos, and muffins consume baking slots; accessory items (candles/balloons) do not
+  public calculateBakingSlots(items: { productId: string; quantity: number }[]): number {
+    return items.reduce((sum, item) => {
+      const p = this.products.get(item.productId);
+      if (p && p.categories.includes("cat-7") && !p.categories.includes("cat-5") && !p.categories.includes("cat-1")) {
+        return sum; // Candle or Balloon party accessory
+      }
+      return sum + item.quantity;
+    }, 0);
+  }
+
   public getCapacityRange(startDate: string, daysCount: number = 14): (DailyCapacity & { remainingCakes: number })[] {
     const res: (DailyCapacity & { remainingCakes: number })[] = [];
     const base = new Date(startDate);
@@ -694,16 +842,17 @@ class DataStore {
         throw new Error("The bakery is closed on the selected pickup date.");
       }
 
-      // Calculate total cake units requested
-      const totalCakeCount = params.items.reduce((sum, item) => sum + item.quantity, 0);
-      if (totalCakeCount <= 0) {
-        throw new Error("Order must contain at least 1 cake.");
+      // Calculate total item units and baking slots requested
+      const totalItemCount = params.items.reduce((sum, item) => sum + item.quantity, 0);
+      if (totalItemCount <= 0) {
+        throw new Error("Order must contain at least 1 item.");
       }
 
+      const bakingSlots = this.calculateBakingSlots(params.items);
       const remainingCapacity = cap.maxCakes - cap.reservedCakes;
-      if (remainingCapacity < totalCakeCount) {
+      if (bakingSlots > 0 && remainingCapacity < bakingSlots) {
         throw new Error(
-          `Insufficient capacity for ${params.pickupDate}. Remaining: ${remainingCapacity} cake(s), requested: ${totalCakeCount}.`
+          `Insufficient capacity for ${params.pickupDate}. Remaining: ${remainingCapacity} cake slot(s), requested: ${bakingSlots}.`
         );
       }
 
@@ -792,7 +941,7 @@ class DataStore {
       }
 
       // Step 4: Increment reserved_cakes and apply 10-minute expiration hold
-      cap.reservedCakes += totalCakeCount;
+      cap.reservedCakes += bakingSlots;
       this.dailyCapacity.set(params.pickupDate, cap);
 
       const holdExpiresAtDate = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes in future
@@ -832,7 +981,7 @@ class DataStore {
         action: "HOLD_CREATED",
         performedBy: params.userId,
         details: {
-          reservedCakes: totalCakeCount,
+          reservedCakes: bakingSlots,
           pickupDate: params.pickupDate,
           holdExpiresAt,
         },
@@ -885,7 +1034,7 @@ class DataStore {
       if (order.holdExpiresAt && new Date(order.holdExpiresAt).getTime() < Date.now()) {
         order.status = "EXPIRED";
         const cap = this.getCapacityForDate(order.pickupDate);
-        const cakeCount = order.items.reduce((sum, it) => sum + it.quantity, 0);
+        const cakeCount = this.calculateBakingSlots(order.items);
         cap.reservedCakes = Math.max(0, cap.reservedCakes - cakeCount);
         this.dailyCapacity.set(order.pickupDate, cap);
         throw new Error("Reservation hold expired. Capacity has been released. Please re-order.");
@@ -949,7 +1098,7 @@ class DataStore {
 
             // Decrement capacity
             const cap = this.getCapacityForDate(order.pickupDate);
-            const cakeCount = order.items.reduce((sum, it) => sum + it.quantity, 0);
+            const cakeCount = this.calculateBakingSlots(order.items);
             cap.reservedCakes = Math.max(0, cap.reservedCakes - cakeCount);
             this.dailyCapacity.set(order.pickupDate, cap);
 
@@ -1010,7 +1159,7 @@ class DataStore {
 
       // Decrement reserved cakes
       const cap = this.getCapacityForDate(order.pickupDate);
-      const cakeCount = order.items.reduce((sum, it) => sum + it.quantity, 0);
+      const cakeCount = this.calculateBakingSlots(order.items);
       cap.reservedCakes = Math.max(0, cap.reservedCakes - cakeCount);
       this.dailyCapacity.set(order.pickupDate, cap);
 
