@@ -1258,6 +1258,7 @@ const globalForDataStore = globalThis as unknown as {
 };
 
 export const dataStore = globalForDataStore.cakeCartDataStore ?? new DataStore();
+dataStore.seedInitialData();
 
 globalForDataStore.cakeCartDataStore = dataStore;
 
